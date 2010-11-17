@@ -70,9 +70,9 @@ except ImportError:
     except ImportError:
         import elementtree.ElementTree as etree
 
+from oembed_works import get_version
 
-__author__ = 'abarmat@gmail.com'
-__version__ = '0.1.2'
+
 
 class OEmbedError(Exception):
     '''Base class for OEmbed errors'''
@@ -225,7 +225,7 @@ class OEmbedEndpoint(object):
     def _initRequestHeaders(self):
         self._requestHeaders = {}
         
-        self.setUserAgent('python-oembed/' + __version__)
+        self.setUserAgent('django-oembed-works/' + get_version())
 
     def addUrlScheme(self, url):
         '''
