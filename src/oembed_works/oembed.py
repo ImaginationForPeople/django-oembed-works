@@ -58,7 +58,17 @@ import urllib
 import urllib2
 import re
 import simplejson
-import xml.etree.ElementTree as etree
+
+try:    # Python version 2.5 or newer
+    try:
+        import xml.etree.cElementTree as etree
+    except ImportError:
+        import xml.etree.ElementTree as etree
+except ImportError:
+    try:    # Python version < 2.5
+        import cElementTree as etree
+    except ImportError:
+        import elementtree.ElementTree as etree
 
 
 __author__ = 'abarmat@gmail.com'
