@@ -24,27 +24,6 @@
 #  limitations under the License.
 #
 
-from oembed_works.exceptions import OEmbedSizeError
-
-
-def get_dimensions_from_string(size):
-    """Returns a (WIDTH, HEIGHT) tuple.
-    
-    Accepts a string in the form WIDTHxHEIGHT
-    
-    Raises OEmbedSizeError when on invalid image size.  
-    
-    """
-    try:
-        bits = size.split('x', 1)
-    except AttributeError:
-        raise OEmbedSizeError('size must be a string of the form WIDTHxHEIGHT')
-    if len(bits) != 2:
-        raise OEmbedSizeError('size must be a string of the form WIDTHxHEIGHT')
-    try:
-        size_x = int(bits[0])
-        size_y = int(bits[1])
-    except ValueError:
-        raise OEmbedSizeError('size\'s WIDTH and HEIGHT must be integers')
-    return size_x, size_y
+class OEmbedSizeError(Exception):
+    pass
 
