@@ -1,0 +1,3 @@
+django-oembed-works
+Django
+sphinx
