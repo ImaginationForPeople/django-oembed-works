@@ -24,10 +24,14 @@
 #  limitations under the License.
 #
 
+import re
+
 from django import template
 
+from oembed_works import oembed
 from oembed_works.exceptions import OEmbedSizeError
 from oembed_works.utils import get_dimensions_from_string
+from oembed_works import settings
 
 
 register = template.Library()
@@ -43,6 +47,33 @@ class OEmbedNode(template.Node):
         # Processing
         # TODO:
         return output
+    
+    def _process_output(self, output):
+        consumer = self._get_oembed_consumer()
+        for endpoint, regex_list in settings.OEMBED_PROVIDERS.values():
+            for regex in regex_list:
+                #print "Doing regex: %s" % regex
+                for m in re.finditer(regex, output):
+                    #print '%02d-%02d: %s' % (m.start(), m.end(), m.group(0))
+                    oembed_html = self._get_oembed_html(consumer, m.group(0))
+                    output = '%s%s%s' % (output[:m.start()], oembed_html, output[m.end():])
+        return output
+    
+    def _get_oembed_consumer(self):
+        consumer = oembed.OEmbedConsumer()
+        for format, endpoint_api, regex_list in settings.OEMBED_PROVIDERS.values():
+            endpoint = oembed.OEmbedEndpoint(endpoint_api, regex_list)
+            consumer.addEndpoint(endpoint)
+        return consumer
+    
+    def _get_oembed_html(self, consumer, link):
+        response = consumer.embed(link)
+        if isinstance(response, oembed.OEmbedPhotoResponse):
+            return '<img src="%(url)s" width="%(width)s" height="%(height)s" />' % response
+        else:
+            return link
+
+
 
 def do_oembed(parser, token):
     """
