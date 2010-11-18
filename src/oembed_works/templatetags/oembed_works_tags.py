@@ -25,6 +25,12 @@
 #
 
 import re
+try:
+    import hashlib
+    md5 = hashlib.md5
+except ImportError:
+    import md5  # Python 2.4 fallback
+    md5 = md5.new
 
 from django import template
 from django.template.loader import render_to_string
@@ -70,15 +76,16 @@ class OEmbedNode(template.Node):
         return consumer
     
     def _get_oembed_html(self, consumer, link, width, height):
+        link_hash = md5(link).hexdigest()
         response = consumer.embed(link)
         info_dict = {'response': self._set_oembed_dimensions(response, width, height)}
         if response['type'] == 'photo':
             return render_to_string('oembed_works/photo.html', info_dict)
-        if response['type'] == 'video':
+        elif response['type'] == 'video':
             return render_to_string('oembed_works/video.html', info_dict)
-        if response['type'] == 'link':
+        elif response['type'] == 'link':
             return render_to_string('oembed_works/link.html', info_dict)
-        if response['type'] == 'rich':
+        elif response['type'] == 'rich':
             return render_to_string('oembed_works/rich.html', info_dict)
         else:
             return link
