@@ -402,9 +402,6 @@ class OEmbedUrlScheme(object):
             
         '''
         self._url = url
-        #self._regex = re.compile(url.replace('.', '\.')\
-        #                            .replace('*', '.*'))
-        # Support proper regular expressions in URLs
         self._regex = re.compile(url)
 
     def getUrl(self):
