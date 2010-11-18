@@ -27,6 +27,7 @@
 import re
 
 from django import template
+from django.template.loader import render_to_string
 
 from oembed_works import oembed
 from oembed_works.exceptions import OEmbedSizeError
@@ -38,25 +39,27 @@ register = template.Library()
 
 
 class OEmbedNode(template.Node):
+    
     def __init__(self, nodelist, width, height):
         self.nodelist = nodelist
         self.width = width
         self.height = height
+        self.consumer = self._get_oembed_consumer()
+    
     def render(self, context):
         output = self.nodelist.render(context)
-        # Processing
-        # TODO:
+        # Process output
+        output = self._oembed_processor(output, self.width, self.height)
         return output
     
-    def _process_output(self, output):
-        consumer = self._get_oembed_consumer()
-        for endpoint, regex_list in settings.OEMBED_PROVIDERS.values():
+    def _oembed_processor(self, output, width, height):
+        for format, endpoint, regex_list in settings.OEMBED_PROVIDERS.values():
             for regex in regex_list:
-                #print "Doing regex: %s" % regex
                 for m in re.finditer(regex, output):
-                    #print '%02d-%02d: %s' % (m.start(), m.end(), m.group(0))
-                    oembed_html = self._get_oembed_html(consumer, m.group(0))
-                    output = '%s%s%s' % (output[:m.start()], oembed_html, output[m.end():])
+                    #print 'MATCH: %02d-%02d: %s' % (m.start(), m.end(), m.group(0))
+                    oembed_html = self._get_oembed_html(self.consumer, m.group(0), width, height)
+                    pattern = re.escape(m.group(0)) # The found link is used as the pattern
+                    output = re.sub(pattern, oembed_html, output)
         return output
     
     def _get_oembed_consumer(self):
@@ -66,14 +69,30 @@ class OEmbedNode(template.Node):
             consumer.addEndpoint(endpoint)
         return consumer
     
-    def _get_oembed_html(self, consumer, link):
+    def _get_oembed_html(self, consumer, link, width, height):
         response = consumer.embed(link)
-        if isinstance(response, oembed.OEmbedPhotoResponse):
-            return '<img src="%(url)s" width="%(width)s" height="%(height)s" />' % response
+        info_dict = {'response': self._set_oembed_dimensions(response, width, height)}
+        if response['type'] == 'photo':
+            return render_to_string('oembed_works/photo.html', info_dict)
+        if response['type'] == 'video':
+            return render_to_string('oembed_works/video.html', info_dict)
+        if response['type'] == 'link':
+            return render_to_string('oembed_works/link.html', info_dict)
+        if response['type'] == 'rich':
+            return render_to_string('oembed_works/rich.html', info_dict)
         else:
             return link
-
-
+    
+    def _set_oembed_dimensions(self, response, width, height):
+        if width is not None:
+            response['width'] = width
+            if response.has_key('html'):
+                response['html'] = re.sub('width="\d+"', 'width="%d"' % width, response['html'])
+        if height is not None:
+            response['height'] = height
+            if response.has_key('html'):
+                response['html'] = re.sub('height="\d+"', 'height="%d"' % height, response['html'])
+        return response
 
 def do_oembed(parser, token):
     """
