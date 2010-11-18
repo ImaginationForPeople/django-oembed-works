@@ -99,6 +99,11 @@ class OEmbedResponse(object):
     def __getitem__(self, name):
         return self._data.get(name)
     
+    def __setitem__(self, name, value):
+        if not self._data.has_key(name):
+            raise AttributeError('Adding new attributes to the response object is not supported')
+        self._data[name] = value
+    
     def getData(self):
         return self._data
         
