@@ -112,6 +112,9 @@ class OEmbedResponse(object):
             raise AttributeError('Adding new attributes to the response object is not supported')
         self._data[name] = value
     
+    def has_key(self, name):
+        return self._data.has_key(name)
+    
     def getData(self):
         return self._data
         
