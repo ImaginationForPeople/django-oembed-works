@@ -2,7 +2,7 @@
 #
 #  This file is part of django-oembed-works.
 #
-#  DESCRIPTION_DESCRIPTION_DESCRIPTION
+#  django-oembed-works is a Django app that provides support for the oEmbed format.
 #
 #  Development Web Site:
 #    - http://www.codetrax.org/projects/django-oembed-works

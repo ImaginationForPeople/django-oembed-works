@@ -7,7 +7,7 @@ django-oembed-works
 | **Documentation**: `django-oembed-works documentation <http://packages.python.org/django-oembed-works>`_
 | **Downloads**: `django-oembed-works releases <http://pypi.python.org/pypi/django-oembed-works>`_
 
-DESCRIPTION_DESCRIPTION_DESCRIPTION
+django-oembed-works is a Django app that provides support for the oEmbed format.
 
 Licensed under the *Apache License version 2.0*. More licensing information
 exists in the license_ section.

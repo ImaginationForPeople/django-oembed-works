@@ -17,7 +17,7 @@ Welcome to the *django-oembed-works*'s documentation!
 About this project
 ==================
 
-DESCRIPTION_DESCRIPTION_DESCRIPTION
+django-oembed-works is a Django app that provides support for the oEmbed format.
 
 | **Author**: `George Notaras <http://www.g-loaded.eu/>`_
 | **Development Web Site**: `django-oembed-works project <http://www.codetrax.org/projects/django-oembed-works>`_

@@ -3,7 +3,7 @@
 #
 #  This file is part of django-oembed-works.
 #
-#  DESCRIPTION_DESCRIPTION_DESCRIPTION
+#  django-oembed-works is a Django app that provides support for the oEmbed format.
 #
 #  Development Web Site:
 #    - http://www.codetrax.org/projects/django-oembed-works
@@ -66,7 +66,7 @@ if __name__=='__main__':
         maintainer = 'George Notaras',
         maintainer_email = 'gnot [at] g-loaded.eu',
         url = 'http://www.codetrax.org/projects/django-oembed-works',
-        description = 'DESCRIPTION_DESCRIPTION_DESCRIPTION',
+        description = 'django-oembed-works is a Django app that provides support for the oEmbed format.',
         long_description = read('README'),
         download_url = 'https://source.codetrax.org/hgroot/django-oembed-works',
         platforms=['any'],

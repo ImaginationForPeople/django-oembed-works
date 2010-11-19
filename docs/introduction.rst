@@ -6,7 +6,7 @@ Introduction
 This section contains an introduction to *django-oembed-works*, including general
 information about how to submit bug reports and make feature requests.
 
-DESCRIPTION_DESCRIPTION_DESCRIPTION
+django-oembed-works is a Django app that provides support for the oEmbed format.
 
 Licensed under the *Apache License version 2.0*. More licensing information
 exists in the license_ section.
