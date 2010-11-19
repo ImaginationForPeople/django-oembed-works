@@ -34,6 +34,7 @@ except ImportError:
 
 from django import template
 from django.template.loader import render_to_string
+from django.db.models.loading import cache
 
 from oembed_works import oembed
 from oembed_works.exceptions import OEmbedSizeError
@@ -75,9 +76,30 @@ class OEmbedNode(template.Node):
             consumer.addEndpoint(endpoint)
         return consumer
     
+    def _set_oembed_dimensions(self, response, width, height):
+        if width is not None:
+            response['width'] = width
+            if response.has_key('html'):
+                response['html'] = re.sub('width="\d+"', 'width="%d"' % width, response['html'])
+        if height is not None:
+            response['height'] = height
+            if response.has_key('html'):
+                response['html'] = re.sub('height="\d+"', 'height="%d"' % height, response['html'])
+        return response
+    
     def _get_oembed_html(self, consumer, link, width, height):
-        link_hash = md5(link).hexdigest()
-        response = consumer.embed(link)
+        # First try to get a response object from the cache
+        response = self._get_from_cache(link)
+        if response is None:
+            # Use OEmbed consumer to get a response
+            try:
+                response = consumer.embed(link)
+            except oembed.OEmbedError:
+                return link
+            else:
+                # Also store the response to the cache
+                self._store_to_cache(link, response)
+        # Return HTML code with embeded object
         info_dict = {'response': self._set_oembed_dimensions(response, width, height)}
         if response['type'] == 'photo':
             return render_to_string('oembed_works/photo.html', info_dict)
@@ -90,16 +112,23 @@ class OEmbedNode(template.Node):
         else:
             return link
     
-    def _set_oembed_dimensions(self, response, width, height):
-        if width is not None:
-            response['width'] = width
-            if response.has_key('html'):
-                response['html'] = re.sub('width="\d+"', 'width="%d"' % width, response['html'])
-        if height is not None:
-            response['height'] = height
-            if response.has_key('html'):
-                response['html'] = re.sub('height="\d+"', 'height="%d"' % height, response['html'])
-        return response
+    def _get_from_cache(self, link):
+        StoredOEmbedResponse = cache.get_model('oembed_works', 'StoredOEmbedResponse')
+        link_hash = md5(link).hexdigest()
+        try:
+            stored_response = StoredOEmbedResponse.objects.get(link_hash=link_hash)
+        except StoredOEmbedResponse.DoesNotExist:
+            return None
+        else:
+            return stored_response.get_response_object()
+    
+    def _store_to_cache(self, link, response):
+        StoredOEmbedResponse = cache.get_model('oembed_works', 'StoredOEmbedResponse')
+        link_hash = md5(link).hexdigest()
+        response_data = pickle.dumps(response.getData())
+        StoredOEmbedResponse.objects.get_or_create(
+            link_hash=link_hash, response_data=response_data)
+        
 
 def do_oembed(parser, token):
     """
