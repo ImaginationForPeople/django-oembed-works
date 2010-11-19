@@ -24,5 +24,31 @@
 #  limitations under the License.
 #
 
+import pickle
+
 from django.db import models
-from django.db.models import signals
+
+from oembed_works import oembed
+
+
+class StoredOEmbedResponse(models.Model):
+    link_hash = models.CharField(max_length=32, unique=True, db_index=True)
+    response_data = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'Stored OEmbed Response'
+        verbose_name_plural = 'Stored OEmbed Responses'
+    
+    def __unicode__(self):
+        return self.link_hash
+    
+    def get_response_object(self):
+        """Returns an OEmbedResponse object according to the response type."""
+        data = pickle.loads(self.response_data)
+        if not data.has_key('type'):
+            raise oembed.OEmbedError('Missing required field `type` in stored OEmbed response.')
+        response = oembed.OEmbedResponse.create(data['type'])
+        response.loadData(data)
+        return response
+
