@@ -24,6 +24,7 @@
 #  limitations under the License.
 #
 
+import pickle
 import re
 try:
     import hashlib
