@@ -24,7 +24,7 @@
 #  limitations under the License.
 #
 
-import pickle
+import simplejson
 import re
 try:
     import hashlib
@@ -126,7 +126,7 @@ class OEmbedNode(template.Node):
     def _store_to_cache(self, link, response):
         StoredOEmbedResponse = cache.get_model('oembed_works', 'StoredOEmbedResponse')
         link_hash = md5(link).hexdigest()
-        response_data = pickle.dumps(response.getData())
+        response_data = simplejson.dumps(response.getData())
         StoredOEmbedResponse.objects.get_or_create(
             link_hash=link_hash, response_data=response_data)
         

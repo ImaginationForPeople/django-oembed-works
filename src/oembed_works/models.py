@@ -24,7 +24,7 @@
 #  limitations under the License.
 #
 
-import pickle
+import simplejson
 
 from django.db import models
 
@@ -45,7 +45,7 @@ class StoredOEmbedResponse(models.Model):
     
     def get_response_object(self):
         """Returns an OEmbedResponse object according to the response type."""
-        data = pickle.loads(self.response_data)
+        data = simplejson.loads(self.response_data)
         if not data.has_key('type'):
             raise oembed.OEmbedError('Missing required field `type` in stored OEmbed response.')
         response = oembed.OEmbedResponse.create(data['type'])
