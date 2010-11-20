@@ -27,3 +27,7 @@
 from django.contrib import admin
 from django.db.models.loading import cache
 
+
+#class StoredOEmbedResponseAdmin(admin.ModelAdmin):
+#    pass
+#admin.site.register(cache.get_model('oembed_works', 'StoredOEmbedResponse'), StoredOEmbedResponseAdmin)
