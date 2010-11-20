@@ -7,5 +7,5 @@ include MANIFEST.in
 include requirements.txt
 include setup.cfg
 include setup.py
-recursive-include src/oembed_works *.py
+recursive-include src/oembed_works *.py *.json *.mo *.po *.html
 graft docs
