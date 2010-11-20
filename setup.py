@@ -84,7 +84,10 @@ if __name__=='__main__':
             'Topic :: Software Development :: Libraries :: Python Modules',
         ],
         package_dir = {'': 'src'},
-        packages = ['oembed_works'],
+        packages = [
+            'oembed_works',
+            'oembed_works.templatetags',
+        ],
         include_package_data = True,
         #zip_safe = False,
     )
