@@ -29,28 +29,28 @@ from django.conf import settings
 
 _OEMBED_PROVIDERS = {
     # Format:
-    #     <provider_name>: (<format>, <endpoint_api_url>, [<regex1>, <regex2>, ...])
-    'YouTube (OohEmbed)': ('1', 'http://oohembed.com/oohembed/',
+    #     <provider_name>: (<endpoint_api_url>, [<regex1>, <regex2>, ...])
+    'YouTube': ('http://oohembed.com/oohembed/',
         [r'http://(?:www\.)?youtube\.com/watch\?v=[A-Za-z0-9\-=_]{11}']),
-    'Vimeo': ('1', 'http://vimeo.com/api/oembed.json',
+    'Vimeo': ('http://vimeo.com/api/oembed.json',
         [r'http://(?:www\.)?vimeo\.com/\d+']),
-    'Dailymotion (OohEmbed)': ('1', 'http://oohembed.com/oohembed/',
+    'Dailymotion': ('http://oohembed.com/oohembed/',
         [r'http://(?:www\.)?dailymotion\.com/video/[^<\S]+']),
-    'Flickr': ('1', 'http://www.flickr.com/services/oembed',
+    'Flickr': ('http://www.flickr.com/services/oembed',
         [r'http://(?:www\.)?flickr\.com/photos/\S+?/(?:sets/)?\d+/?']),
-    #'Google Video (OohEmbed)': ('1', 'http://oohembed.com/oohembed/',
+    #'Google Video': ('http://oohembed.com/oohembed/',
     #    [r'http://video\.google\.com/videoplay?\S*']),
-    #'Metacafe (OohEmbed)': ('1', 'http://oohembed.com/oohembed/',
+    #'Metacafe': ('http://oohembed.com/oohembed/',
     #    [r'http://\S*.metacafe.com/watch/\S*']),
-    #'Scribd': ('1', 'http://www.scribd.com/services/oembed',
+    #'Scribd': ('http://www.scribd.com/services/oembed',
     #    [r'http://(?:www\.)?scribd\.com/.*']),
-    #'Amazon Product Image (OohEmbed)': ('1', 'http://oohembed.com/oohembed/',
+    #'Amazon Product Image': ('http://oohembed.com/oohembed/',
     #    [r'http://\S*\.amazon\.(com|co\.uk|de|ca|jp)/\S*/(gp/product|o/ASIN|obidos/ASIN|dp)/\S*']),
-    #'Wikipedia (OohEmbed)': ('1', 'http://oohembed.com/oohembed/',
+    #'Wikipedia': ('http://oohembed.com/oohembed/',
     #    [r'http://\S*.wikipedia.org/wiki/\S*']),
-    #'Twitter Status (OohEmbed)': ('1', 'http://oohembed.com/oohembed/',
+    #'Twitter Status': ('http://oohembed.com/oohembed/',
     #    [r'http://(?:www\.)?twitter\.com/(?:\w{1,20})/statuses/\d+/?']),
-    #'': ('1', '',
+    #'': ('',
     #    [r'']),
 }
 

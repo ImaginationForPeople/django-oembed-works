@@ -61,7 +61,7 @@ class OEmbedNode(template.Node):
         return output
     
     def _oembed_processor(self, output, width, height):
-        for format, endpoint, regex_list in settings.OEMBED_PROVIDERS.values():
+        for endpoint, regex_list in settings.OEMBED_PROVIDERS.values():
             for regex in regex_list:
                 for m in re.finditer(regex, output):
                     #print 'MATCH: %02d-%02d: %s' % (m.start(), m.end(), m.group(0))
@@ -72,7 +72,7 @@ class OEmbedNode(template.Node):
     
     def _get_oembed_consumer(self):
         consumer = oembed.OEmbedConsumer()
-        for format, endpoint_api, regex_list in settings.OEMBED_PROVIDERS.values():
+        for endpoint_api, regex_list in settings.OEMBED_PROVIDERS.values():
             endpoint = oembed.OEmbedEndpoint(endpoint_api, regex_list)
             consumer.addEndpoint(endpoint)
         return consumer
