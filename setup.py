@@ -87,6 +87,8 @@ if __name__=='__main__':
         packages = [
             'oembed_works',
             'oembed_works.templatetags',
+            'oembed_works.management',
+            'oembed_works.management.commands',
         ],
         include_package_data = True,
         #zip_safe = False,
