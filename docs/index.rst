@@ -3,9 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-=========================
+===================================
 django-oembed-works's documentation
-=========================
+===================================
 
 Copyright 2010 `George Notaras`_ <gnot [at] g-loaded.eu>
 

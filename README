@@ -12,12 +12,14 @@ django-oembed-works is a Django app that provides support for the oEmbed format.
 Licensed under the *Apache License version 2.0*. More licensing information
 exists in the license_ section.
 
+**Warning**: This software is not production ready. Testing is required.
+
 
 Features
 ========
 
-- Feature A
-- Feature B
+- Provides a template tag which parses a block of text and replaces links
+  with embedded objects.
 
 
 Documentation
