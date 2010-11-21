@@ -142,13 +142,13 @@ def do_oembed(parser, token):
     # split_contents() knows not to split quoted strings.
     args = token.split_contents()
     width, height = None, None
-    if len(args) not in (2, 3):
-        raise template.TemplateSyntaxError('%s tag requires one or two arguments' % args[0])
-    elif len(args) == 3:
+    if len(args) not in (1, 2):
+        raise template.TemplateSyntaxError('%s tag requires zero or one argument' % args[0])
+    elif len(args) == 2:
         try:
             width, height = get_dimensions_from_string(args[1])
         except OEmbedSizeError:
-            raise template.TemplateSyntaxError("second argument to %s tag must be a string of the format 'WIDTHxHEIGHT'" % args[0])
+            raise template.TemplateSyntaxError("first argument to %s tag must be a string of the format 'WIDTHxHEIGHT'" % args[0])
     
     nodelist = parser.parse(('endoembed',))
     parser.delete_first_token()
