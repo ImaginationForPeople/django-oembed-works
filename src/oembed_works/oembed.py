@@ -65,7 +65,7 @@ Simple usage:
 import urllib
 import urllib2
 import re
-import simplejson
+from django.utils import simplejson
 
 try:    # Python version 2.5 or newer
     try:

@@ -24,7 +24,6 @@
 #  limitations under the License.
 #
 
-import simplejson
 import re
 try:
     import hashlib
@@ -36,6 +35,7 @@ except ImportError:
 from django import template
 from django.template.loader import render_to_string
 from django.db.models.loading import cache
+from django.utils import simplejson
 
 from oembed_works import oembed
 from oembed_works.exceptions import OEmbedSizeError

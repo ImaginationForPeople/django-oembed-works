@@ -24,9 +24,8 @@
 #  limitations under the License.
 #
 
-import simplejson
-
 from django.db import models
+from django.utils import simplejson
 
 from oembed_works import oembed
 
