@@ -325,7 +325,14 @@ class OEmbedEndpoint(object):
             urlApi = self._urlApi.replace('{format}', params['format'])
             del params['format']
                 
-        return "%s?%s" % (urlApi, urllib.urlencode(params)) 
+        # With this trick, it is possible to use extra GET params allowed
+        # by some providers such as DailyMotion (e.g. wmode )
+        if "?" in urlApi:
+            delim = "&"
+        else:
+            delim = "?"
+
+        return "%s%s%s" % (urlApi, delim, urllib.urlencode(params))
 
     def get(self, url, **opt):
         '''
