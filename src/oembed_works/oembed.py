@@ -363,7 +363,10 @@ class OEmbedEndpoint(object):
         opener = self._urllib.build_opener()
         opener.addheaders = self._requestHeaders.items()
 
-        response = opener.open(url)
+        try:
+            response = opener.open(url)
+        except self._urllib.HTTPError, e:
+            raise OEmbedError('This resource is not acessible - %s' % url)
 
         headers = response.info()
         raw = response.read()
